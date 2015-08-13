@@ -83,7 +83,8 @@ func ConvertToHtml(source string, dest string) error {
 
 	r := bufio.NewReader(fi)
 	w := bufio.NewWriter(fo)
-	w.WriteString("<html><meta charset=\"utf-8\"/><table>")
+	w.WriteString("<html><head><meta charset=\"utf-8\"/></head><table>")
+	w.Flush()
 	for {
 		line, err := r.ReadString('\n')
 		if err != nil {
@@ -99,6 +100,7 @@ func ConvertToHtml(source string, dest string) error {
 				}
 				w.WriteString("</table></html>")
 				fmt.Printf("successfully finish reading %s \n", source)
+				w.Flush()
 				return nil
 			}
 			return err
@@ -111,6 +113,7 @@ func ConvertToHtml(source string, dest string) error {
 				w.WriteString("<td>" + colValue + "</td>")
 			}
 			w.WriteString("</tr>")
+			w.Flush()
 		}
 	}
 	return nil
